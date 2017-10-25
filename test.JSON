@@ -1,0 +1,72 @@
+{
+    "ODF_HEADER": {
+        "  FILE_SPECIFICATION": "'MTR_HUD2015030_1898_10588081_1800'"
+    }, 
+    "CRUISE_HEADER": {
+        "  COUNTRY_INSTITUTE_CODE": "1810", 
+        "  CRUISE_NUMBER": "'HUD2015030'", 
+        "  ORGANIZATION": "'DFO BIO'", 
+        "  CHIEF_SCIENTIST": "'Dave Hebert'", 
+        "  START_DATE": "'20-SEP-2015'", 
+        "  END_DATE": "'11-OCT-2015'", 
+        "  PLATFORM": "'CCGS Hudson'", 
+        "  CRUISE_NAME": "'St. Anns Bank'", 
+        "  CRUISE_DESCRIPTION": "'Atlantic Zonal Monitoring Program (AZMP) Fall 2015'"
+    }, 
+    "EVENT_HEADER": {
+        "  DATA_TYPE": "'MTR'", 
+        "  EVENT_NUMBER": "'1898'", 
+        "  EVENT_QUALIFIER1": "'10588081'", 
+        "  EVENT_QUALIFIER2": "'1800'", 
+        "  CREATION_DATE": "'01-NOV-2016 14:47:05.74'", 
+        "  ORIG_CREATION_DATE": "'01-NOV-2016 14:21:01.78'", 
+        "  START_DATE_TIME": "'23-SEP-2015 16:30:00.00'", 
+        "  END_DATE_TIME": "'24-SEP-2016 17:00:00.00'", 
+        "  INITIAL_LATITUDE": "46.255217", 
+        "  INITIAL_LONGITUDE": "-59.141283", 
+        "  END_LATITUDE": "46.255217", 
+        "  END_LONGITUDE": "-59.141283", 
+        "  MIN_DEPTH": "75.000000", 
+        "  MAX_DEPTH": "75.000000", 
+        "  SAMPLING_INTERVAL": "1800.000000", 
+        "  SOUNDING": "118.000000", 
+        "  DEPTH_OFF_BOTTOM": "43.000000", 
+        "  EVENT_COMMENTS": "''"
+    }, 
+    "INSTRUMENT_HEADER": {
+        "  INST_TYPE": "'HOBO'", 
+        "  MODEL": "'U22-001'", 
+        "  SERIAL_NUMBER": "'10588081'", 
+        "  DESCRIPTION": "''"
+    }, 
+    "QUALITY_HEADER": {}, 
+    "HISTORY_HEADER": {
+        "COUNT": 0, 
+        "  CREATION_DATE": "'01-NOV-2016 14:47:05.74'", 
+        "  PROCESS": "'01-NOV-2016: Pre and Post deployment records removed.'"
+    }, 
+    "PARAMETER_HEADER": {
+        "COUNT": 0, 
+        "  TYPE": "'SING'", 
+        "  NAME": "'Sea Temperature (IPTS-68)'", 
+        "  UNITS": "'degrees C'", 
+        "  CODE": "'TEMP_01'", 
+        "  NULL_VALUE": "'-99.00'", 
+        "  PRINT_FIELD_WIDTH": "10", 
+        "  PRINT_DECIMAL_PLACES": "4", 
+        "  ANGLE_OF_SECTION": "-99.000000", 
+        "  MAGNETIC_VARIATION": "-99.000000", 
+        "  DEPTH": "75.000000", 
+        "  MINIMUM_VALUE": "   -0.3390", 
+        "  MAXIMUM_VALUE": "    5.2050", 
+        "  NUMBER_VALID": "17618", 
+        "  NUMBER_NULL": "0"
+    }, 
+    "RECORD_HEADER": {
+        "  NUM_CALIBRATION": "0", 
+        "  NUM_SWING": "0", 
+        "  NUM_HISTORY": "1", 
+        "  NUM_CYCLE": "17618", 
+        "  NUM_PARAM": "2"
+    }
+}
