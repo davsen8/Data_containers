@@ -91,7 +91,7 @@ class ODF_reader():
                             return
 
                         n=n+1
-                        print (line)
+#                        print (line)
                         self.hdrdict["DATA"].append(linelist)
 
 #                print line
@@ -199,6 +199,7 @@ def main():
     pd_data["Temp"] = pd.to_numeric(pd_data["Temp"])
     print (pd_data)
     pd_data.plot(x='DateTime',y='Temp',title='BIO minilog demo')
+    pyplot.show()
 
     #		hdr.print_pfile_hdr()
 
