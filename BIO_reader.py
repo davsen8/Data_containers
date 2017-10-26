@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 '''
-Created on 2017-04-12 by Jennifer Holden
-@author: holdenje
+Created on 2017-10-26 by Dave Senciall
+@author: Dsenciall
 
 NOTES:
-Parses the seabird data files for header information and data
+coded for python 3.x
 
 '''
 
@@ -91,7 +91,7 @@ class ODF_reader():
                             return
 
                         n=n+1
-                        print line
+                        print (line)
                         self.hdrdict["DATA"].append(linelist)
 
 #                print line
@@ -135,7 +135,7 @@ class ODF_reader():
 
                         line = fp.readline()
                         line = line.rstrip()
-                        print "LINES=", line[-1:]
+                        print ("LINES=", line[-1:])
                         while line[-1:] == ',':
                             line = line.rstrip(',')
                             sub_parms = line.split("=")
@@ -160,7 +160,7 @@ class ODF_reader():
     def print_text(self):
         for i in self.hdrdict :
             for j in self.hdrdict[i]:
-                print i,j, self.hdrdict[i][j]
+                print (i,j, self.hdrdict[i][j])
 
 
     def write_JSON(self):
@@ -196,9 +196,9 @@ def main():
     pd_data = pd.DataFrame(data)
     pd_data.columns=['DateTime','Temp']
     pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
-    pd_data["Temp"] = pd.to_float(pd_data["Temp"])
-    print pd_data
-    pd_data.plot(x='DateTime',y='Temp',title='BIO minlog demo')
+    pd_data["Temp"] = pd.to_numeric(pd_data["Temp"])
+    print (pd_data)
+    pd_data.plot(x='DateTime',y='Temp',title='BIO minilog demo')
 
     #		hdr.print_pfile_hdr()
 
