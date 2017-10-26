@@ -13,13 +13,16 @@ Parses the seabird data files for header information and data
 #import the necessary modules
 ####################################################################################
 
-#import datetime
+import datetime
 #import re
 from collections import OrderedDict
 import json
-#import pandas as pd
+import pandas as pd
+import matplotlib.pyplot as pyplot
 
-class ODF_reader:
+class ODF_reader():
+
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -34,7 +37,7 @@ class ODF_reader:
         self.hdrdict["PARAMETER_HEADER"] = OrderedDict()
         self.hdrdict["PARAMETER_HEADER"]["COUNT"]=0
         self.hdrdict["RECORD_HEADER"] = OrderedDict()
-        self.hdrdict["DATA"] = OrderedDict()
+        self.hdrdict["DATA"] = list()
 
 #        self.DATA = OrderedDict()
 
@@ -42,12 +45,13 @@ class ODF_reader:
 
         self.parse_text()
 
-        self.print_text()
+#        self.print_text()
 
         self.write_JSON()
 
 
     def parse_text(self):
+        linelist = list()
         with open(self.filename) as fp:
 
             self.endrow = 0
@@ -69,21 +73,26 @@ class ODF_reader:
                         try:
                             line = fp.readline()
                             line = line.rstrip()
+                            Pipe_time = True
+                            if (Pipe_time):
+
+                                line = line.replace ('\'',' ') #BIO VMS timestamp gets splip, but the quote cases an issue
+                                linelist = line.split()
+                                dt = linelist[0]+' '+linelist[1]
+                                del linelist[1]
+                                linelist[0] = dt
+
+
                         except:
                             return
 
-                        if n == 40:
-                                    return
+                        if line =='':
+#                            print "BUG OUT EOF"
+                            return
 
                         n=n+1
                         print line
-                        self.hdrdict["DATA"][n] = line.split()
-
-
-
-
-
-
+                        self.hdrdict["DATA"].append(linelist)
 
 #                print line
                 line = line.rstrip()
@@ -151,7 +160,7 @@ class ODF_reader:
     def print_text(self):
         for i in self.hdrdict :
             for j in self.hdrdict[i]:
-                    print i,j, self.hdrdict[i][j]
+                print i,j, self.hdrdict[i][j]
 
 
     def write_JSON(self):
@@ -181,6 +190,16 @@ def main():
     #		datafile = sys.argv[i]
     datafile = "JSON_test\BIO\MTR_HUD2015030_1898_10588081_1800.ODF"
     hdr = ODF_reader(datafile)
+
+    data = hdr.hdrdict["DATA"]
+
+    pd_data = pd.DataFrame(data)
+    pd_data.columns=['DateTime','Temp']
+    pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
+    pd_data["Temp"] = pd.to_float(pd_data["Temp"])
+    print pd_data
+    pd_data.plot(x='DateTime',y='Temp',title='BIO minlog demo')
+
     #		hdr.print_pfile_hdr()
 
 
