@@ -106,13 +106,13 @@ class ODF_reader():
                         self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]] = OrderedDict()
                         line = line.rstrip()
 
-                        self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][0] = line
+                        self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][0] = line.lstrip()
                         n=1
                         line = fp.readline()
                         line = line.rstrip()
                         while line[-1:] ==',':
 
-                            self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][n] = line
+                            self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][n] = line.lstrip()
                             n = n +1
                             try:
                                 line = fp.readline()
@@ -120,7 +120,7 @@ class ODF_reader():
                             except:
                                 break
 
-                        self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][n] = line
+                        self.hdrdict["HISTORY_HEADER"][self.hdrdict["HISTORY_HEADER"]["COUNT"]][n] = line.lstrip()
                         self.hdrdict["HISTORY_HEADER"]["COUNT"] = self.hdrdict["HISTORY_HEADER"]["COUNT"] + 1
 
                         current_dict = ''
@@ -131,7 +131,7 @@ class ODF_reader():
                         line = line.rstrip()
                         sub_parms = line.split("=")
 
-                        self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0]] = sub_parms[1]
+                        self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0].lstrip()] = sub_parms[1]
 
                         line = fp.readline()
                         line = line.rstrip()
@@ -139,7 +139,7 @@ class ODF_reader():
                         while line[-1:] == ',':
                             line = line.rstrip(',')
                             sub_parms = line.split("=")
-                            self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0]] = sub_parms[1]
+                            self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0].lstrip()] = sub_parms[1]
 
                             try:
                                 line = fp.readline()
@@ -149,18 +149,21 @@ class ODF_reader():
 
                         line = line.rstrip(',')
                         sub_parms = line.split("=")
-                        self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0]] = sub_parms[1]
+                        self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0].lstrip()] = sub_parms[1]
                         self.hdrdict["PARAMETER_HEADER"]["COUNT"] = self.hdrdict["PARAMETER_HEADER"]["COUNT"] + 1
                         current_dict = ''
                     else:
                         sub_parms = line.split("=")
-                        self.hdrdict[current_dict][sub_parms[0]] = sub_parms[1]
+                        self.hdrdict[current_dict][sub_parms[0].lstrip()] = sub_parms[1]
 
-
-    def print_text(self):
-        for i in self.hdrdict :
-            for j in self.hdrdict[i]:
-                print (i,j, self.hdrdict[i][j])
+        def print_text(adict):
+            for i in adict:
+                for j in adict[i]:
+                    if not isinstance(j, list):
+                        print(i, j, adict[i][j])
+                    else:
+                        #                    for k  in j:
+                        print(j)
 
 
     def write_JSON(self):
@@ -198,7 +201,7 @@ def main():
     pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
     pd_data["Temp"] = pd.to_numeric(pd_data["Temp"])
     print (pd_data)
-    pd_data.plot(x='DateTime',y='Temp',title='BIO minilog demo')
+    pd_data.plot(x='DateTime',y='Temp',title='BIO HOBO demo')
     pyplot.show()
 
     #		hdr.print_pfile_hdr()
