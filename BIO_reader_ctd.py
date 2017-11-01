@@ -2,10 +2,11 @@
 
 '''
 Created on 2017-10-26 by Dave Senciall
-@author: Dsenciall
+@author: DSenciall
 
 NOTES:
-coded for python 3.x
+coded for python 3.x    the panda's to_xx functions dont seem to be present in the anancoda 2.7 for some
+bizzare reason even though the they are part o\pandas since pandas 0.17
 
 '''
 
@@ -69,20 +70,21 @@ class ODF_reader():
 
                 if "-- DATA --" in line:
                     n = 0
+                    Pipe_time = False
                     while True:
                         try:
                             line = fp.readline()
                             line = line.rstrip()
-                            Pipe_time = True
-                            if (Pipe_time):
 
-                                line = line.replace ('\'',' ') #BIO VMS timestamp gets splip, but the quote cases an issue
+                            if (Pipe_time):
+                                line = line.replace ('\'',' ') #BIO VMS timestamp gets split, but the quote cases an issue
                                 linelist = line.split()
                                 dt = linelist[0]+' '+linelist[1]
                                 del linelist[1]
                                 linelist[0] = dt
 
-
+                            else:
+                                linelist = line.split()
                         except:
                             return
 
@@ -92,6 +94,9 @@ class ODF_reader():
 
                         n=n+1
 #                        print (line)
+#                        [float(i) for i in linelist]
+                        for index,item in enumerate(linelist):
+                          linelist[index] = float(item)
                         self.hdrdict["DATA"].append(linelist)
 
 #                print line
@@ -167,7 +172,7 @@ class ODF_reader():
 
 
     def write_JSON(self):
-        with open('test.JSON', 'w') as fp:
+        with open('CTD_BCD2016666_001_01_DN_test.json', 'w') as fp:
             json.dump(self.hdrdict,fp,indent=4)
 #            fp.write(json.dumps(self.hdrdict),indent=4,seperators=(',',':'))
         fp.close()
@@ -191,17 +196,20 @@ def main():
 
     #	for i in range (1 , len(sys.argv)) :
     #		datafile = sys.argv[i]
-    datafile = "JSON_test\BIO\MTR_HUD2015030_1898_10588081_1800.ODF"
+    datafile = "JSON_test\BIO\CTD_BCD2016666_001_01_DN.ODF"
+#    datafile =""
     hdr = ODF_reader(datafile)
 
     data = hdr.hdrdict["DATA"]
 
     pd_data = pd.DataFrame(data)
-    pd_data.columns=['DateTime','Temp']
-    pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
-    pd_data["Temp"] = pd.to_numeric(pd_data["Temp"])
+#    pd_data.columns=['cntrl','cntr-f','Pres','Press_f','Temp','Temp_f']
+#    pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
+    pd_data["Pres"] = pd.to_numeric(pd_data[2])
+    pd_data.loc[:,"Pres"] *=-1
+    pd_data["Temp"] = pd.to_numeric(pd_data[4])
     print (pd_data)
-    pd_data.plot(x='DateTime',y='Temp',title='BIO HOBO demo')
+    pd_data.plot(x='Temp',y='Pres',title='BIO CTD demo')
     pyplot.show()
 
     #		hdr.print_pfile_hdr()

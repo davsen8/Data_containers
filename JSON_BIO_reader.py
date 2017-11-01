@@ -8,10 +8,10 @@ import pandas as pd
 import matplotlib.pyplot as pyplot
 
 
-def read_JSON():
+def read_JSON(afile):
     testdict = OrderedDict()
     try:
-        with open('test.JSON', 'r') as fp:
+        with open(afile, 'r') as fp:
             testdict = json.load(fp)
 
         fp.close()
@@ -38,10 +38,11 @@ def main():
 
     #	for i in range (1 , len(sys.argv)) :
     #		datafile = sys.argv[i]
-    datafile = "JSON_test\BIO\MTR_HUD2015030_1898_10588081_1800.ODF"
+#    datafile = "JSON_test\BIO\MTR_HUD2015030_1898_10588081_1800.ODF"
+#    datafile = "JSON_test\BIO\MTR_HUD2015030_1898_10588081_1800.ODF"
 #    hdr = ODF_reader(datafile)
 
-    hdr = read_JSON()
+    hdr = read_JSON("MTR_HUD2015030_1898_10588081_1800_ODF.json")
     data = hdr["DATA"]
 
     pd_data = pd.DataFrame(data)
