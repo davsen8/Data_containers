@@ -35,7 +35,7 @@ rev$RECORD_HEADER$NUM_CYCLE
 
 revdata= as.data.frame(t(as.data.frame(rev$DATA))) # transposed to get cols and rows right
 
-revdata= as.data.frame(rev$DATA) # transposed to get cols and rows right
+#revdata= as.data.frame(rev$DATA) # transposed to get cols and rows right
 str(revdata)
 
 
@@ -55,7 +55,7 @@ str(revdata)
 
 #  for the aes call do not put variable names in quotes
 aplot<- ggplot(revdata, aes(x =date, y = temp))+ geom_line() +
-  scale_y_continuous(name="temp,limits=c(-2,6))
+  scale_y_continuous(name='temp',limits=c(-2,6))
 
 
 aplot
