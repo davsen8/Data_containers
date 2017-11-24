@@ -34,17 +34,38 @@ class ODF_reader():
 # this is not a complete list of posible ODF heders...
 
         self.hdrdict = OrderedDict()
-        self.hdrdict["ODF_HEADER"] = OrderedDict()
-        self.hdrdict["CRUISE_HEADER"] = OrderedDict()
-        self.hdrdict["EVENT_HEADER"] = OrderedDict()
+
+
+        self.hdrdict["ODF_HEADER"] = OrderedDict()    # OBLIGATORY
+
+        self.hdrdict["CRUISE_HEADER"] = OrderedDict()  # OBLIGATORY
+
+        self.hdrdict["EVENT_HEADER"] = OrderedDict()   # OBLIGATORY
+
+        self.hdrdict["METRO_HEADER"] = OrderedDict()
+
         self.hdrdict["INSTRUMENT_HEADER"] = OrderedDict()
-        self.hdrdict["QUALITY_HEADER"] = OrderedDict()
-        self.hdrdict["HISTORY_HEADER"] = OrderedDict()
+
+        self.hdrdict["QUALITY_HEADER"] = OrderedDict()          # single but sub-elements can repeat
+
+        self.hdrdict["GENERAL_CAL_HEADER"] = OrderedDict()      # multi
+        self.hdrdict["GENERAL_CAL_HEADER"]["COUNT"]=0
+
+
+        self.hdrdict["POLYNOMIAL_CAL_HEADER"] = OrderedDict()   # multi
+        self.hdrdict["POLYNOMIAL_CAL_HEADER"]["COUNT"]=0
+
+        self.hdrdict["COMPASS_CA:_HEADER"] = OrderedDict()      # multi
+        self.hdrdict["COMPASS_CAL_HEADER"]["COUNT"]=0
+
+        self.hdrdict["HISTORY_HEADER"] = OrderedDict()          # multi
         self.hdrdict["HISTORY_HEADER"]["COUNT"] = 0
-        self.hdrdict["PARAMETER_HEADER"] = OrderedDict()
+
+        self.hdrdict["PARAMETER_HEADER"] = OrderedDict()        # multi  OBLIGATORY
         self.hdrdict["PARAMETER_HEADER"]["COUNT"]=0
-        self.hdrdict["RECORD_HEADER"] = OrderedDict()
-        self.hdrdict["DATA"] = list()
+
+        self.hdrdict["RECORD_HEADER"] = OrderedDict()           # OBLIGATORY
+        self.hdrdict["DATA"] = list()                           # -- DATA --   OBLIGATORY
 
         self.parse_text()
 
