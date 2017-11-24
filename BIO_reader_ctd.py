@@ -55,7 +55,7 @@ class ODF_reader():
         self.hdrdict["POLYNOMIAL_CAL_HEADER"] = OrderedDict()   # multi
         self.hdrdict["POLYNOMIAL_CAL_HEADER"]["COUNT"]=0
 
-        self.hdrdict["COMPASS_CA:_HEADER"] = OrderedDict()      # multi
+        self.hdrdict["COMPASS_CAL_HEADER"] = OrderedDict()      # multi
         self.hdrdict["COMPASS_CAL_HEADER"]["COUNT"]=0
 
         self.hdrdict["HISTORY_HEADER"] = OrderedDict()          # multi
@@ -66,6 +66,9 @@ class ODF_reader():
 
         self.hdrdict["RECORD_HEADER"] = OrderedDict()           # OBLIGATORY
         self.hdrdict["DATA"] = list()                           # -- DATA --   OBLIGATORY
+
+        self.time_channel = -1
+        self.channels = list()
 
         self.parse_text()
 
@@ -95,7 +98,13 @@ class ODF_reader():
                     n = 0
                     # this is a bit of jam in to handle the issue of the pipe time stamp getting split on its
                     # enbedded blank and the 2 resultant date time elements have dangling quotes... ugg
-                    Pipe_time = False
+                    if "SYTM_01" in self.channels :
+                        self.time_channel = self.channels.index("'SYTM_01'")
+                        Pipe_time = True
+                        print ("time detected")
+                    else :
+                        Pipe_time = False
+
                     while True:
                         try:
                             line = fp.readline()
@@ -104,9 +113,9 @@ class ODF_reader():
                             if (Pipe_time):
                                 line = line.replace ('\'',' ') #BIO VMS timestamp gets split, but the quote cases an issue
                                 linelist = line.split()
-                                dt = linelist[0]+' '+linelist[1]
-                                del linelist[1]
-                                linelist[0] = dt
+                                dt = linelist[self.time_channel]+' '+linelist[self.time_channel+1]
+                                del linelist[self.time_channel]
+                                linelist[self.time_channel] = dt
 
                             else:
                                 linelist = line.split()
@@ -119,7 +128,8 @@ class ODF_reader():
 
                         n=n+1
                         for index,item in enumerate(linelist):
-                          linelist[index] = float(item)
+                            if index != self.time_channel:
+                                linelist[index] = float(item)
 
                         self.hdrdict["DATA"].append(linelist)
 
@@ -179,6 +189,9 @@ class ODF_reader():
                         line = line.rstrip(',')
                         sub_parms = line.split("=")
                         self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]][sub_parms[0].lstrip()] = sub_parms[1]
+
+                        self.channels.append (self.hdrdict["PARAMETER_HEADER"][self.hdrdict["PARAMETER_HEADER"]["COUNT"]]["CODE"])
+
                         self.hdrdict["PARAMETER_HEADER"]["COUNT"] = self.hdrdict["PARAMETER_HEADER"]["COUNT"] + 1
                         current_dict = ''
                     else:
@@ -224,8 +237,12 @@ def main():
 
 
     datafile = "JSON_test\BIO\CTD_BCD2016666_001_01_DN.ODF"
+#    datafile = "JSON_test\BIO\MCM_HUD2013021_1841_0563_3600.ODF"
+#    datafile = "JSON_test\BIO\CTD_BCD20155666_007_01_UP.ODF"
 
     hdr = ODF_reader(datafile)
+
+    print (hdr.channels)
 
     hdr.write_JSON()
 
@@ -236,11 +253,13 @@ def main():
 #    pd_data.columns=['cntrl','cntr-f','Pres','Press_f','Temp','Temp_f']
 #    pd_data['DateTime']= pd.to_datetime(pd_data['DateTime'],format='%d-%b-%Y %H:%M:%S.00')
 
-    pd_data["Pres"] = pd.to_numeric(pd_data[2])
-    pd_data.loc[:,"Pres"] *=-1
-    pd_data["Temp"] = pd.to_numeric(pd_data[4])
-    print (pd_data)
-    pd_data.plot(x='Temp',y='Pres',title='BIO CTD demo')
+
+
+    pd_data["PRES"] = pd.to_numeric(pd_data[hdr.channels.index("'PRES_01'")])
+    pd_data.loc[:,"PRES"] *=-1
+    pd_data["TEMP"] = pd.to_numeric(pd_data[hdr.channels.index("'TEMP_01'")])
+#    print (pd_data)
+    pd_data.plot(x='TEMP',y='PRES',title='BIO CTD demo')
     pyplot.show()
 
 
