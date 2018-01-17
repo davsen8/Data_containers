@@ -1,0 +1,41 @@
+{
+    "HEADER": {
+        "DATA_TYPE": "'MTR'",
+        "START_DATE_TIME": "'23-SEP-2015 16:30:00.00'",
+        "END_DATE_TIME": "'24-SEP-2016 17:00:00.00'",
+        "INITIAL_LATITUDE": "46.255217",
+        "INITIAL_LONGITUDE": "-59.141283",
+        "END_LATITUDE": "46.255217",
+        "END_LONGITUDE": "-59.141283",
+        "MIN_DEPTH": "75.000000",
+        "MAX_DEPTH": "75.000000",
+        "SAMPLING_INTERVAL": "1800.000000",
+        "SOUNDING": "118.000000",
+        "DEPTH_OFF_BOTTOM": "43.000000",
+        "EVENT_COMMENTS": "''"
+    },
+    "INSTRUMENT_HEADER": {
+        "INST_TYPE": "'HOBO'",
+        "MODEL": "'U22-001'",
+        "SERIAL_NUMBER": "'10588081'",
+        "DESCRIPTION": "''"
+    },
+    "DATA": [
+        [
+            "23-SEP-2015 16:30:00.00",
+            "0.8800"
+        ],
+        [
+            "23-SEP-2015 17:00:00.00",
+            "0.8800"
+        ],
+        [
+            "23-SEP-2015 17:30:00.00",
+            "0.8800"
+        ]]
+
+        [
+            "23-SEP-2015 18:30:00.00",
+            "0.9340"
+        ]]
+}
